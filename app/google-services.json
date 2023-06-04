@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "582788866712",
+    "project_id": "shoppingmallapp-a34ea",
+    "storage_bucket": "shoppingmallapp-a34ea.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:582788866712:android:678d96145aa9fa7302e6ed",
+        "android_client_info": {
+          "package_name": "com.kenshi.shoppingmallapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "582788866712-dcshksj52v2m259oqell04pdd5qals25.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kenshi.shoppingmallapp",
+            "certificate_hash": "f815bf3587470a6d12ccc191569e579132a87a68"
+          }
+        },
+        {
+          "client_id": "582788866712-lppvu3msbj7fh12d7lbur0cgbhduoeu6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCyUoulBh9bB-XL5xOmPgfjdIda-sDnOEg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "582788866712-lppvu3msbj7fh12d7lbur0cgbhduoeu6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
