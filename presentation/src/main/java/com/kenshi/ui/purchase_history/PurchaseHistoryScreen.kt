@@ -35,6 +35,7 @@ fun PurchaseHistoryScreen(
     viewModel: PurchaseHistoryViewModel = hiltViewModel()
 ) {
     val purchaseHistory by viewModel.purchaseHistory.collectAsState(initial = listOf())
+
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -53,7 +54,6 @@ fun PurchaseHistoryScreen(
 fun LazyListScope.PurchaseHistoryCard(
     purchaseHistory: PurchaseHistory
 ) {
-
     item {
         Text(
             fontSize = 16.sp,
@@ -76,22 +76,21 @@ fun LazyListScope.PurchaseHistoryCard(
             Column(
                 modifier = Modifier
                     .padding(10.dp, 0.dp, 0.dp, 0.dp)
-                    .weight(1f)
             ) {
                 Text(
                     fontSize = 14.sp,
                     text = "${currentItem.product.shop.shopName} - ${currentItem.product.productName}",
                 )
+                Price(product = currentItem.product)
             }
-            Price(product = currentItem.product)
+            Text(
+                text = "${currentItem.count} 개",
+                fontSize = 18.sp,
+                fontWeight = FontWeight.SemiBold,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(30.dp, 0.dp, 0.dp, 0.dp)
+            )
         }
-        Text(
-            text = "${currentItem.count} 개",
-            fontSize = 18.sp,
-            fontWeight = FontWeight.SemiBold,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.padding(30.dp, 0.dp, 0.dp, 0.dp)
-        )
     }
     item {
         Text(

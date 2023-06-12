@@ -7,7 +7,6 @@ import com.kenshi.data.db.entity.SearchKeywordEntity
 import com.kenshi.data.db.entity.toDomain
 import com.kenshi.data.db.entity.toLikeProductEntity
 import com.kenshi.domain.model.Product
-import com.kenshi.domain.model.SearchFilter
 import com.kenshi.domain.model.SearchKeyword
 import com.kenshi.domain.repository.SearchRepository
 import kotlinx.coroutines.flow.Flow
@@ -21,31 +20,12 @@ class SearchRepositoryImpl @Inject constructor(
     private val likeDao: LikeDao
 ) : SearchRepository {
 
-    override suspend fun search(
-        searchKeyword: SearchKeyword,
-        filters: List<SearchFilter>
-    ): Flow<List<Product>> {
+    override suspend fun search(searchKeyword: SearchKeyword): Flow<List<Product>> {
         // 검색어를 저장
         searchDao.insert(SearchKeywordEntity(searchKeyword.keyword))
-        return dataSource.getProducts().map { list ->
-            list.filter { isAvailableProduct(it, searchKeyword, filters) }
-        }
-            .combine(likeDao.getAll()) { products, likeList ->
+        return dataSource.getProducts().combine(likeDao.getAll()) { products, likeList ->
                 products.map { product -> updateLikeStatus(product, likeList.map { it.productId }) }
             }
-    }
-
-    private fun isAvailableProduct(
-        product: Product,
-        searchKeyword: SearchKeyword,
-        filters: List<SearchFilter>
-    ): Boolean {
-        var isAvailable = true
-        filters.forEach {
-            isAvailable = isAvailable && it.isAvailableProduct(product)
-        }
-
-        return isAvailable && product.productName.contains(searchKeyword.keyword)
     }
 
     override fun getSearchKeywords(): Flow<List<SearchKeyword>> {

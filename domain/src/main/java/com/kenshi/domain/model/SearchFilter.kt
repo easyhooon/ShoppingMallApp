@@ -26,7 +26,7 @@ sealed class SearchFilter(open val type: Type) {
 
     data class CategoryFilter(
         val categories: List<Category>,
-        var selectedCategory: Category?= null
+        var selectedCategory: Category? = null
     ) : SearchFilter(Type.CATEGORY) {
         override fun isAvailableProduct(product: Product): Boolean {
             return selectedCategory == null || product.category.categoryId == selectedCategory?.categoryId

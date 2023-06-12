@@ -1,6 +1,5 @@
 package com.kenshi.ui
 
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -42,7 +41,7 @@ fun MainScreen(googleSignInClient: GoogleSignInClient) {
     // TODO scaffold 의 state 를 관리 (어떤 state 를 관리)
     val scaffoldState = rememberScaffoldState()
     // TODO padding 값도 state 로 관리해야 하는 건가
-    var padding by remember { mutableStateOf(PaddingValues()) }
+    // var padding by remember { mutableStateOf(PaddingValues()) }
     // TODO 정확한 쓰임세 확인
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
@@ -54,10 +53,7 @@ fun MainScreen(googleSignInClient: GoogleSignInClient) {
         scaffoldState = scaffoldState,
         bottomBar = {
             if (MainNav.isMainRoute(currentRoute)) {
-                MainBottomNavigationBar(
-                    navController = navController,
-                    currentRoute = currentRoute
-                )
+                MainBottomNavigationBar(navController = navController, currentRoute = currentRoute)
             }
         },
         // 결제가 완료 되었을 때 띄워줄 스낵바
@@ -69,10 +65,15 @@ fun MainScreen(googleSignInClient: GoogleSignInClient) {
                 )
             }
         },
-        content = {
+        content = { paddingValues ->
             // padding values 를 지정해줘야 Top Bar 에 의해 리스트 아이템이 가려지는 것을 방지할 수 있음
-            padding = it
-            MainNavigationScreen(viewModel = viewModel, navController = navController, googleSignInClient = googleSignInClient, scaffoldState = scaffoldState)
+            MainNavigationScreen(
+                modifier = Modifier.padding(paddingValues),
+                viewModel = viewModel,
+                navController = navController,
+                googleSignInClient = googleSignInClient,
+                scaffoldState = scaffoldState
+            )
         }
     )
 }
@@ -81,18 +82,24 @@ fun MainScreen(googleSignInClient: GoogleSignInClient) {
 // TODO 이렇게 두개를 인자로 받다니.. 최악이다.
 // Main 에서만 사용하는 헤더
 @Composable
-fun MainHeader(viewModel: MainViewModel, navController: NavHostController, currentRoute: String?) {
+fun MainHeader(
+    viewModel: MainViewModel,
+    navController: NavHostController,
+    currentRoute: String?
+) {
     TopAppBar(
         title = {
             Text(NavigationUtils.findDestination(currentRoute).title)
         },
         // Main 화면이 아닌 경우에 백 버튼을 넣어줌
-        navigationIcon = {
-            if (!MainNav.isMainRoute(currentRoute)) {
+        navigationIcon = if (!MainNav.isMainRoute(currentRoute)) {
+            {
                 IconButton(onClick = { navController.popBackStack() }) {
                     Icon(Icons.Filled.ArrowBack, contentDescription = "back_icon")
                 }
             }
+        } else {
+            null
         },
         actions = {
             if (MainNav.isMainRoute(currentRoute)) {
@@ -126,8 +133,8 @@ fun MainBottomNavigationBar(
         // NavigationItem.MainNav.Home,
         MainNav.Home,
         MainNav.Category,
+        MainNav.Like,
         MainNav.MyPage,
-        MainNav.Like
     )
 
     BottomNavigation {
@@ -148,10 +155,11 @@ fun MainBottomNavigationBar(
 //                            restoreState = true
 //                        }
 //                    }
+                    // 개선 이후
                     NavigationUtils.navigate(
-                        controller = navController,
+                        navController = navController,
                         routeName = item.route,
-                        navController.graph.startDestinationRoute
+                        backStackRouteName = navController.graph.startDestinationRoute
                     )
                 },
             )
@@ -162,6 +170,7 @@ fun MainBottomNavigationBar(
 // TODO 모든 화면에 deepLinks argument 를 넣어주는 이유가 뭘까
 @Composable
 fun MainNavigationScreen(
+    modifier: Modifier = Modifier,
     viewModel: MainViewModel,
     navController: NavHostController,
     googleSignInClient: GoogleSignInClient,
@@ -209,6 +218,9 @@ fun MainNavigationScreen(
         ) {
             PurchaseHistoryScreen()
         }
+        composable(SearchNav.route) {
+            SearchScreen(navController)
+        }
         // TODO data class 를 넘겨주는 방법
 //        composable(
 //            NavigationRouteName.CATEGORY + "/{category}",
@@ -228,10 +240,7 @@ fun MainNavigationScreen(
         ) {
             val category = CategoryNav.findArgument(it)
             if (category != null) {
-                CategoryScreen(
-                    navHostController = navController,
-                    category = category
-                )
+                CategoryScreen(navHostController = navController, category = category)
             }
         }
         // 일반적인 string 전달
@@ -258,9 +267,6 @@ fun MainNavigationScreen(
             if (productString != null) {
                 ProductDetailScreen(productString)
             }
-        }
-        composable(SearchNav.route) {
-            SearchScreen(navController)
         }
     }
 }

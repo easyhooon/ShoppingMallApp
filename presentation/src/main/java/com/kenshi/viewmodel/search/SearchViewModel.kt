@@ -9,7 +9,7 @@ import com.kenshi.domain.model.SearchFilter
 import com.kenshi.domain.model.SearchKeyword
 import com.kenshi.domain.usecase.SearchUseCase
 import com.kenshi.model.ProductVM
-import com.kenshi.ui.component.SearchNav
+import com.kenshi.ui.component.ProductDetailNav
 import com.kenshi.utils.NavigationUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -34,7 +34,7 @@ class SearchViewModel @Inject constructor(
 
     fun search(searchKeyword: String) {
         viewModelScope.launch {
-            searchInternalSearchKeyword(searchKeyword)
+            searchInternalNewSearchKeyword(searchKeyword)
         }
     }
 
@@ -61,7 +61,7 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    private suspend fun searchInternalSearchKeyword(newSearchKeyword: String = "") {
+    private suspend fun searchInternalNewSearchKeyword(newSearchKeyword: String = "") {
         // 이전 필터 값 제거(필터 초기화)
         searchManager.clearFilter()
 
@@ -69,9 +69,10 @@ class SearchViewModel @Inject constructor(
             searchKeyword = SearchKeyword(newSearchKeyword),
             filters = searchManager.currentFilters()
         ).collectLatest {
-            if (newSearchKeyword.isNotEmpty()) {
-                searchManager.initSearchManager(newSearchKeyword, it)
-            }
+//            if (newSearchKeyword.isNotEmpty()) {
+//                searchManager.initSearchManager(newSearchKeyword, it)
+//            }
+            searchManager.initSearchManager(newSearchKeyword, it)
 
             _searchResult.emit(it.map(::convertToProductVM))
         }
@@ -84,6 +85,6 @@ class SearchViewModel @Inject constructor(
 
     // TODO 이거 안드로이드 종속성 있는거 아님?
     override fun openProduct(navHostController: NavHostController, product: Product) {
-        NavigationUtils.navigate(navHostController, SearchNav.route)
+        NavigationUtils.navigate(navHostController, ProductDetailNav.navigateWithArg(product.productId))
     }
 }

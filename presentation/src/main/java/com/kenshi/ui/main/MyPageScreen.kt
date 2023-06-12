@@ -67,6 +67,7 @@ fun MyPageScreen(
             error != null -> {
                 Log.e("Kakao", "카카오 계정 로그인 실패", error)
             }
+
             token != null -> {
                 loginWithKakaoNickname(token, viewModel)
             }
@@ -84,9 +85,12 @@ fun MyPageScreen(
                 painter = rememberAsyncImagePainter(
                     ImageRequest.Builder(LocalContext.current)
                         .data(data = accountInfo?.profileImageUrl)
-                        .apply(block = fun ImageRequest.Builder.() {
-                            crossfade(true)
-                        }).build()
+                        // scope 함수 apply
+                        .apply(
+                            block = fun ImageRequest.Builder.() {
+                                crossfade(true)
+                            }
+                        ).build()
                 ),
                 contentDescription = "profile_image",
                 contentScale = ContentScale.Crop,
@@ -106,7 +110,9 @@ fun MyPageScreen(
             )
             Spacer(modifier = Modifier.height(50.dp))
             Button(
-                onClick = { viewModel.openPurchaseHistory(navHostController = navHostController) },
+                onClick = {
+                    viewModel.openPurchaseHistory(navHostController = navHostController)
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(10.dp)
@@ -121,7 +127,6 @@ fun MyPageScreen(
                     contentDescription = "purchase_history_icon"
                 )
             }
-
             Spacer(modifier = Modifier.weight(1f))
             Button(
                 onClick = {
@@ -130,9 +135,11 @@ fun MyPageScreen(
                         AccountInfo.Type.KAKAO -> {
                             UserApiClient.instance.logout { }
                         }
+
                         AccountInfo.Type.GOOGLE -> {
                             firebaseAuth.signOut()
                         }
+
                         else -> {}
                     }
                 },
@@ -142,14 +149,14 @@ fun MyPageScreen(
             ) {
                 Text(text = "로그아웃")
             }
+            Spacer(modifier = Modifier.height(70.dp))
         } else {
             Button(
                 onClick = {
                     startForResult.launch(googleSignInClient.signInIntent)
                 },
                 modifier = Modifier.fillMaxWidth()
-            )
-            {
+            ) {
                 Text(text = "구글 로그인")
             }
 
@@ -172,6 +179,7 @@ fun loginWithKakaoNickname(token: OAuthToken, viewModel: MainViewModel) {
             error != null -> {
                 Log.e("Kakao", "사용자 정보 실패", error)
             }
+
             user != null -> {
                 // profileImage
                 val imageUrl = user.kakaoAccount?.profile?.thumbnailImageUrl

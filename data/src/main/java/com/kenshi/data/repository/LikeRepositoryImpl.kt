@@ -10,9 +10,9 @@ import javax.inject.Inject
 
 class LikeRepositoryImpl @Inject constructor(
     private val likeDao: LikeDao
-): LikeRepository {
+) : LikeRepository {
     override fun getLikeProduct(): Flow<List<Product>> {
-        return likeDao.getAll().map {entities ->
+        return likeDao.getAll().map { entities ->
             entities.map {
                 it.toDomainModel()
             }

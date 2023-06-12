@@ -95,7 +95,7 @@ fun BasketProductCard(
     deleteProduct: (Product) -> Unit
 ) {
     Box(
-        modifier = Modifier.padding(10.dp)
+        modifier = Modifier.fillMaxWidth()
     ) {
         Row(
             modifier = Modifier

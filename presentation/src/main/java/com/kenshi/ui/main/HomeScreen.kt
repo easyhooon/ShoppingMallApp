@@ -22,7 +22,7 @@ fun MainHomeScreen(
     val modelList by viewModel.modelList.collectAsState(initial = listOf())
     val columnCount by viewModel.columnCount.collectAsState()
 
-    //TODO LazyVerticalGrid 사용 방법
+    //TODO LazyVerticalGrid 사용 방법!
     LazyVerticalGrid(columns = GridCells.Fixed(columnCount)) {
         items(modelList.size, span = { index ->
             val item = modelList[index]

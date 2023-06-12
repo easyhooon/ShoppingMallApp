@@ -40,14 +40,14 @@ object NavigationUtils {
 //    }
 
     // 개선 후
-  fun navigate(
-        controller: NavHostController,
+    fun navigate(
+        navController: NavHostController,
         routeName: String,
         backStackRouteName: String? = null,
         isLaunchSingleTop: Boolean = true,
         needToRestoreState: Boolean = true
     ) {
-        controller.navigate(routeName) {
+        navController.navigate(routeName) {
             if (backStackRouteName != null) {
                 popUpTo(backStackRouteName) {
                     saveState = true
@@ -59,7 +59,7 @@ object NavigationUtils {
     }
 
     fun findDestination(route: String?): Destination {
-        return when(route) {
+        return when (route) {
             // 파라미터가 없는 경우
             NavigationRouteName.MAIN_MY_PAGE -> MainNav.MyPage
             NavigationRouteName.MAIN_LIKE -> MainNav.Like

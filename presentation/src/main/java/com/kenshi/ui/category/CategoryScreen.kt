@@ -15,6 +15,7 @@ import com.kenshi.domain.model.Category
 import com.kenshi.ui.component.ProductCard
 import com.kenshi.viewmodel.category.CategoryViewModel
 
+//TODO 카테고리 화면에서 상품 카드를 눌렀을때 해당 상품 리스트가 출력되지 않는 문제
 @Composable
 fun CategoryScreen(
     category: Category,
@@ -32,7 +33,7 @@ fun CategoryScreen(
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(10.dp)
     ) {
-        items(products.size) {index->
+        items(products.size) { index ->
             ProductCard(navHostController = navHostController, presentationVM = products[index])
         }
     }

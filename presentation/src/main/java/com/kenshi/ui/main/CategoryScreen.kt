@@ -26,6 +26,7 @@ fun MainCategoryScreen(
 ) {
     val categories by viewModel.categories.collectAsState(initial = listOf())
 
+    //TODO LazyVerticalGrid 사용 방법
     LazyVerticalGrid(columns = GridCells.Fixed(3)) {
         items(categories.size, span = { GridItemSpan(1) }) {
             Card(

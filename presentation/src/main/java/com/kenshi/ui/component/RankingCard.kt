@@ -40,32 +40,40 @@ fun RankingCard(
             fontWeight = FontWeight.SemiBold,
             modifier = Modifier.padding(10.dp, 0.dp, 0.dp, 0.dp)
         )
-    }
-
-    HorizontalPager(
-        count = pageCount,
-        state = pagerState,
-        contentPadding = PaddingValues(end = 50.dp)
-    ) { index ->
-        Column {
-            RankingProductCard(index * 3, presentationVM.model.productList[index * 3], presentationVM) { product ->
-                presentationVM.openRankingProduct(navHostController, product)
-            }
-            RankingProductCard(index * 3 + 1, presentationVM.model.productList[index * 3 + 1], presentationVM) { product ->
-                presentationVM.openRankingProduct(navHostController, product)
-            }
-            RankingProductCard(index * 3 + 2, presentationVM.model.productList[index * 3 + 2], presentationVM) { product ->
-                presentationVM.openRankingProduct(navHostController, product)
+        HorizontalPager(
+            count = pageCount,
+            state = pagerState,
+            contentPadding = PaddingValues(end = 50.dp)
+        ) { index ->
+            Column {
+                RankingProductCard(index * 3, presentationVM.model.productList[index * 3], presentationVM) { product ->
+                    presentationVM.openRankingProduct(navHostController, product)
+                }
+                RankingProductCard(index * 3 + 1, presentationVM.model.productList[index * 3 + 1], presentationVM) { product ->
+                    presentationVM.openRankingProduct(navHostController, product)
+                }
+                RankingProductCard(index * 3 + 2, presentationVM.model.productList[index * 3 + 2], presentationVM) { product ->
+                    presentationVM.openRankingProduct(navHostController, product)
+                }
             }
         }
     }
 }
 
 @Composable
-fun RankingProductCard(index: Int, product: Product, presentationVM: RankingVM, onClick: (Product) -> Unit) {
-    Box(modifier = Modifier.fillMaxWidth()) {
+fun RankingProductCard(
+    index: Int,
+    product: Product,
+    presentationVM: RankingVM,
+    onClick: (Product) -> Unit
+) {
+    Box(
+        modifier = Modifier.fillMaxWidth()
+    ) {
         IconButton(
-            onClick = { presentationVM.likeProduct(product) },
+            onClick = {
+                presentationVM.likeProduct(product)
+            },
             modifier = Modifier.align(Alignment.BottomEnd)
         ) {
             Icon(
@@ -86,12 +94,14 @@ fun RankingProductCard(index: Int, product: Product, presentationVM: RankingVM, 
             )
             Image(
                 painter = painterResource(id = com.kenshi.presentation.R.drawable.product_image),
-                "product_image",
+                contentDescription = "product_image",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .width(80.dp)
                     .aspectRatio(0.7f)
-                    .clickable { onClick(product) }
+                    .clickable {
+                        onClick(product)
+                    }
             )
             Column(
                 modifier = Modifier.padding(10.dp, 0.dp, 0.dp, 0.dp)

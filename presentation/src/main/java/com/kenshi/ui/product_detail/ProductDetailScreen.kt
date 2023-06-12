@@ -67,8 +67,7 @@ fun ProductDetailScreen(
                 verticalArrangement = Arrangement.Top
             ) {
                 Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.padding(10.dp)
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
                     Card(
                         modifier = Modifier
@@ -82,9 +81,9 @@ fun ProductDetailScreen(
                             contentScale = ContentScale.Crop
                         )
                     }
-                    Spacer(modifier = Modifier.height(12.dp))
+                    Spacer(modifier = Modifier.width(12.dp))
                     Text(
-                        text = "${product?.shop?.shopName}에서 판매중인 상품",
+                        text = "${product?.shop?.shopName}",
                         fontSize = 16.sp
                     )
                 }
@@ -106,10 +105,10 @@ fun ProductDetailScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
-            verticalAlignment = Alignment.Bottom
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "${NumberUtils.numberFormatPrice(product?.price?.finalPrice)}원",
+                text = "${NumberUtils.numberFormatPrice(product?.price?.finalPrice)} 원",
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold
             )
@@ -124,6 +123,9 @@ fun ProductDetailScreen(
                 shape = RoundedCornerShape(12.dp)
             ) {
                 Row(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Icon(
@@ -132,10 +134,9 @@ fun ProductDetailScreen(
                     )
                     Text(
                         modifier = Modifier
-                            .fillMaxWidth()
                             .padding(5.dp),
                         fontSize = 16.sp,
-                        text = "카트에 담기"
+                        text = "장바구니 담기"
                     )
                 }
             }

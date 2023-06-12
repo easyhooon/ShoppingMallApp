@@ -13,7 +13,8 @@ import com.kenshi.data.db.entity.*
         SearchKeywordEntity::class,
         PurchaseHistoryEntity::class,
     ],
-    version = 3
+    version = 3,
+    exportSchema = false
 )
 abstract class ApplicationDatabase: RoomDatabase() {
     companion object {

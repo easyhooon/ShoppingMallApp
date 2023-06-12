@@ -50,7 +50,7 @@ sealed class MainNav(override val route: String, val icon: ImageVector, override
     object Like : MainNav(MAIN_LIKE, Icons.Filled.Favorite, MAIN_LIKE)
 
     override val deepLinks: List<NavDeepLink> = listOf(
-        navDeepLink { uriPattern = "$DEEP_LINK_SCHEME${SearchNav.route}" }
+        navDeepLink { uriPattern = "$DEEP_LINK_SCHEME$route" }
     )
 
     companion object {
@@ -102,7 +102,7 @@ object CategoryNav : DestinationArg<Category> {
     // json 으로 변환함여 넘겨준다
     override fun navigateWithArg(item: Category): String {
         val arg = GsonUtils.toJson(item)
-        return "$route/{$arg}"
+        return "$route/$arg"
     }
 
     override fun findArgument(navBackStackEntry: NavBackStackEntry): Category? {
@@ -124,7 +124,7 @@ object ProductDetailNav : DestinationArg<String> {
 
     override fun navigateWithArg(item: String): String {
         val arg = GsonUtils.toJson(item)
-        return "$route/{$arg}"
+        return "$route/$arg"
     }
 
     override fun findArgument(navBackStackEntry: NavBackStackEntry): String? {

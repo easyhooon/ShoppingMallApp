@@ -35,7 +35,7 @@ class MainViewModel @Inject constructor(
 
     val modelList = mainUseCase.getModelList().map(::convertToPresentationVM)
     val categories = categoryUseCase.getCategories()
-    val likeProducts = likeUseCase.getLikeProducts()
+    val likeProducts = likeUseCase.getLikeProducts().map(::convertToPresentationVM)
 
     val accountInfo = accountUseCase.getAccountInfo()
 
