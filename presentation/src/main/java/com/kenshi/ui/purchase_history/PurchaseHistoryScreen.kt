@@ -57,7 +57,7 @@ fun LazyListScope.PurchaseHistoryCard(
     item {
         Text(
             fontSize = 16.sp,
-            text = "결제 시기: ${purchaseHistory.purchaseAt}"
+            text = "결제 시기 : ${purchaseHistory.purchaseAt}"
         )
     }
     items(purchaseHistory.basketList.size) { index ->
