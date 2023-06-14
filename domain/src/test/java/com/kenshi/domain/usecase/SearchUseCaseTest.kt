@@ -59,6 +59,10 @@ class SearchUseCaseTest {
         `when`(topProduct.productName).thenReturn("상의1")
         `when`(dressProduct.productName).thenReturn("드레스1")
         `when`(pantsProduct.productName).thenReturn("바지1")
+
+        searchResponse = listOf(topProduct, dressProduct, pantsProduct)
+
+        useCase = SearchUseCase(searchRepository)
     }
 
     @After
@@ -91,7 +95,7 @@ class SearchUseCaseTest {
 
         // turbine 을 이용한 테스트
         useCase.search(searchKeyword, listOf(SearchFilter.CategoryFilter(listOf(), Category.Dress))).test {
-            assertThat(awaitItem()).isEqualTo(listOf(topProduct))
+            assertThat(awaitItem()).isEqualTo(listOf(dressProduct))
             awaitComplete()
         }
     }
